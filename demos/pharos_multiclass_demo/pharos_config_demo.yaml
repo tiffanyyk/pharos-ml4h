@@ -1,0 +1,32 @@
+DATA_CONFIG:
+    data_len_sec: 10  # duration of ECG in seconds. PHAROS uses 10 seconds
+    input_samples_per_seq: 4096  # each 10-sec ECG is resampled to this shape
+    norm_params: {
+        # feature: [mean, std]
+        'log_delta_time': [10, 3],  # units: natural log of time in seconds
+        'pap': [26, 9],  # units: mmHg
+    }
+
+
+MODEL:
+    ENCODER:
+        NAME: ECGPairPADeltatEncoder
+
+        ecg_configs:
+            input_channels: [ "I" ]
+
+        hemo_configs:
+            use_baseline_hemo: true  # whether we're using these inputs
+#            input_channels: [ "PAP" ]
+            use_waveform: false  # if false, mlp; if true, resnet
+
+        time_configs:
+            use_delta_t: true  # whether to input change in time
+            use_log_norm: true
+
+        echo_parameters_configs:
+            use_echo_parameters: true
+            input_size: 114  # 57 for features, 57 for mask
+
+    DECODER:
+        threshold: [-4, 5]  # class 0 is < -4, class 1 is -4 to 4 (inclusive), class 2 is >= 5. We round mPAPs to the nearest integer.

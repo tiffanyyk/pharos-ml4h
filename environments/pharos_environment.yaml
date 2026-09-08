@@ -1,0 +1,32 @@
+name: pharos
+channels:
+  - conda-forge
+dependencies:
+  - python=3.12
+  - numpy
+  - pandas
+  - polars
+  - scipy
+  - scikit-learn
+  - matplotlib
+  - seaborn
+  - h5py
+  - hdf5plugin
+  - opencv
+  - imageio
+  - pyyaml
+  - tqdm
+  - python-dateutil
+  - xlsxwriter
+  - pytorch
+  - tensorflow
+  - pip
+  - pip:
+      - easydict
+      - huggingface_hub
+      - neurokit2
+      - pygments
+      - sympy
+      - tensorboardX
+      - wandb
+      - wfdb
