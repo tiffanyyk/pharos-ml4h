@@ -58,46 +58,6 @@ class ECGPairPADeltatEncoder(nn.Module):
                 dropout_ratio=self.config.time_configs.dropout_ratio
             )
             self._load_and_freeze(self.time_encoder, self.config.time_configs, "time_encoder", skip_loading=False)
-        if self.config.get("age_configs", {}).get("use_age"):
-            self.num_out_channels += self.config.age_configs.hidden_sizes[-1]
-            self.age_encoder = create_mlp(
-                input_dim=1 + int(self.config.age_configs.get("use_mask", False)),
-                layers_dim=self.config.age_configs.hidden_sizes,
-                dropout_ratio=self.config.age_configs.dropout_ratio
-            )
-            self._load_and_freeze(self.age_encoder, self.config.age_configs, "age_encoder", skip_loading=False)
-        if self.config.get("gender_configs", {}).get("use_gender"):
-            self.num_out_channels += self.config.gender_configs.hidden_sizes[-1]
-            self.gender_encoder = create_mlp(
-                input_dim=1 + int(self.config.gender_configs.get("use_mask", False)),
-                layers_dim=self.config.gender_configs.hidden_sizes,
-                dropout_ratio=self.config.gender_configs.dropout_ratio
-            )
-            self._load_and_freeze(self.gender_encoder, self.config.gender_configs, "gender_encoder", skip_loading=False)
-        if self.config.get("echo_parameters_configs", {}).get("use_echo_parameters"):
-            self.num_out_channels += self.config.echo_parameters_configs.hidden_sizes[-1]
-            self.echo_parameters_encoder = create_mlp(
-                input_dim=self.config.echo_parameters_configs.input_size,
-                layers_dim=self.config.echo_parameters_configs.hidden_sizes,
-                dropout_ratio=self.config.echo_parameters_configs.dropout_ratio
-            )
-            self._load_and_freeze(self.echo_parameters_encoder, self.config.echo_parameters_configs, "echo_parameters_encoder", skip_loading=False)
-        if self.config.get("ntprobnp_configs", {}).get("use_ntprobnp"):
-            self.num_out_channels += self.config.ntprobnp_configs.hidden_sizes[-1]
-            self.ntprobnp_encoder = create_mlp(
-                input_dim=self.config.ntprobnp_configs.input_size,
-                layers_dim=self.config.ntprobnp_configs.hidden_sizes,
-                dropout_ratio=self.config.ntprobnp_configs.dropout_ratio
-            )
-            self._load_and_freeze(self.ntprobnp_encoder, self.config.ntprobnp_configs, "ntprobnp_encoder", skip_loading=False)
-        if self.config.get("bmp_configs", {}).get("use_bmp"):
-            self.num_out_channels += self.config.bmp_configs.hidden_sizes[-1]
-            self.bmp_encoder = create_mlp(
-                input_dim=self.config.bmp_configs.input_size,
-                layers_dim=self.config.bmp_configs.hidden_sizes,
-                dropout_ratio=self.config.bmp_configs.dropout_ratio
-            )
-            self._load_and_freeze(self.bmp_encoder, self.config.bmp_configs, "bmp_encoder", skip_loading=False)
         if self.config.get("pretrained_weights"):
             self.load_pretrained_weights(self.config.pretrained_weights)
         if self.config.get("freeze_weights"):

@@ -48,7 +48,7 @@ def create_mlp(
 
     if len(layers_dim) == 1:
         res = nn.Linear(input_dim, output_dim)
-        res = nn.Sequential(res, create_activation())  # commented this out when trying to do mini-batch logistic reg from ECG features, but it's needed for ecg_fuser when the fuser is just a single layer (regression models)
+        res = nn.Sequential(res, create_activation())
 
     else:
         layers_dim = [input_dim] + layers_dim
