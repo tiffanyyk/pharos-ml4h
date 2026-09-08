@@ -1,4 +1,5 @@
 import os
+from pathlib import Path
 
 import torch
 from huggingface_hub import hf_hub_download
@@ -10,6 +11,8 @@ NUM_LEADS_TO_CHECKPOINT_FILENAME = {
     12: "12_lead_ECGFounder.pth",
 }
 
+REPO_ROOT = Path(__file__).resolve().parents[3]
+
 
 class ECGFounder(torch.nn.Module):
     def __init__(self, config):
@@ -19,7 +22,7 @@ class ECGFounder(torch.nn.Module):
         num_leads = self.config.get("num_leads", 1)
         checkpoint_filename = NUM_LEADS_TO_CHECKPOINT_FILENAME[num_leads]
 
-        saved_model_path = f"/home/tyau/pa-informed-ecg/src/models/encoder/ecg_founder_utils/{checkpoint_filename}"
+        saved_model_path = os.path.join(REPO_ROOT, f"src/models/encoder/ecg_founder_utils/{checkpoint_filename}")
         if not os.path.exists(saved_model_path):
             local_dir = os.path.dirname(saved_model_path)
             os.makedirs(local_dir, exist_ok=True)
